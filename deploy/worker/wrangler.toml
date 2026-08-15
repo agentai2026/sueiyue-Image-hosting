@@ -10,11 +10,17 @@
 # GitHub Actions 部署时会自动从 Secrets/Variables 生成此文件，
 # 无需手动编辑。详见 .github/workflows/deploy-worker.yml
 
-name = "cloudflare-imgbed"
+name = "sueiyue"
 main = "index.js"
 compatibility_date = "2024-08-21"
+workers_dev = true
 # 让 Worker 对自身 zone 的 fetch() 走公网入口，不要直连 origin。
 compatibility_flags = ["global_fetch_strictly_public"]
+
+# 图床用子域名，根域名 sueiyue.cn 留给后续主站
+routes = [
+  { pattern = "img.sueiyue.cn", custom_domain = true }
+]
 
 # 静态资源（前端文件）
 [assets]
@@ -30,15 +36,15 @@ binding = "IMAGES"
 # TG_BOT_TOKEN = ""
 # TG_CHAT_ID = ""
 
-# [[d1_databases]]
-# binding = "img_d1"
-# database_name = "img_d1"
-# database_id = ""
+[[d1_databases]]
+binding = "img_d1"
+database_name = "sueiyue-imgbed"
+database_id = "c9779c1a-36f9-41b0-92b5-67322bcfa507"
 
-# [[r2_buckets]]
-# binding = "img_r2"
-# bucket_name = ""
+[[r2_buckets]]
+binding = "img_r2"
+bucket_name = "sueiyue-imgbed"
 
-# [[kv_namespaces]]
-# binding = "img_url"
-# id = ""
+[[kv_namespaces]]
+binding = "img_url"
+id = "d5a26839db414f04bbe7175fcc0488c5"

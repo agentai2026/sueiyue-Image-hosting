@@ -1,8 +1,13 @@
-# 岁月的个人图床
+<p align="center">
+  <img src="docs/assets/logo.png" alt="岁月图床" width="320" />
+</p>
+
+# 岁月图床
 
 基于 Cloudflare Workers / Pages 的现代化个人图床（cloudflare-imgbed）。
 
 - 仓库：[agentai2026/sueiyue-Image-hosting](https://github.com/agentai2026/sueiyue-Image-hosting)
+- 图床线上地址：https://img.sueiyue.cn （备用：https://sueiyue.agentai2026.workers.dev）
 - 项目主页（GitHub Pages）：https://agentai2026.github.io/sueiyue-Image-hosting/
 
 ## 功能概览
