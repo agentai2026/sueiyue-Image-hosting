@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>岁月的个人图床</title>
+  <meta name="description" content="岁月的个人图床 — 基于 Cloudflare 的现代化个人图床" />
+  <link rel="icon" href="./assets/logo.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700&family=Outfit:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --ink: #1a1612;
+      --muted: #5c534a;
+      --paper: #f7f2ea;
+      --accent: #c45c26;
+      --accent-soft: rgba(196, 92, 38, 0.14);
+      --line: rgba(26, 22, 18, 0.12);
+      --glow: rgba(255, 214, 170, 0.35);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body { min-height: 100%; }
+
+    body {
+      font-family: "Outfit", "PingFang SC", "Microsoft YaHei", sans-serif;
+      color: var(--ink);
+      background: #0f0d0b;
+      overflow-x: hidden;
+    }
+
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: grid;
+      align-items: end;
+      padding: clamp(1.5rem, 4vw, 3rem);
+      isolation: isolate;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(180deg, rgba(15, 13, 11, 0.25) 0%, rgba(15, 13, 11, 0.72) 55%, rgba(15, 13, 11, 0.92) 100%),
+        url("./assets/background.jpg") center / cover no-repeat;
+      z-index: -2;
+      animation: drift 28s ease-in-out infinite alternate;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 45% at 20% 15%, var(--glow), transparent 60%),
+        radial-gradient(ellipse 50% 40% at 85% 70%, rgba(196, 92, 38, 0.18), transparent 55%);
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    @keyframes drift {
+      from { transform: scale(1.02) translate3d(0, 0, 0); }
+      to { transform: scale(1.08) translate3d(-1.5%, -1%, 0); }
+    }
+
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .brand-lockup {
+      max-width: 42rem;
+      color: var(--paper);
+      animation: rise 0.9s ease-out both;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .brand img {
+      width: 3rem;
+      height: 3rem;
+      border-radius: 18%;
+      box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
+      animation: rise 0.9s 0.08s ease-out both;
+    }
+
+    .brand-name {
+      font-family: "Noto Serif SC", serif;
+      font-weight: 700;
+      font-size: clamp(2rem, 6vw, 3.4rem);
+      letter-spacing: 0.04em;
+      line-height: 1.15;
+      text-shadow: 0 2px 24px rgba(0, 0, 0, 0.45);
+    }
+
+    .headline {
+      font-family: "Noto Serif SC", serif;
+      font-weight: 500;
+      font-size: clamp(1.15rem, 2.6vw, 1.55rem);
+      line-height: 1.55;
+      color: rgba(247, 242, 234, 0.92);
+      margin-bottom: 0.75rem;
+      animation: rise 0.9s 0.16s ease-out both;
+    }
+
+    .support {
+      font-size: 1rem;
+      line-height: 1.7;
+      color: rgba(247, 242, 234, 0.72);
+      max-width: 34rem;
+      margin-bottom: 1.75rem;
+      animation: rise 0.9s 0.24s ease-out both;
+    }
+
+    .cta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      animation: rise 0.9s 0.32s ease-out both;
+    }
+
+    .cta a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 2.85rem;
+      padding: 0 1.25rem;
+      border-radius: 999px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease;
+    }
+
+    .cta a:hover { transform: translateY(-2px); }
+
+    .cta .primary {
+      background: var(--paper);
+      color: var(--ink);
+    }
+
+    .cta .primary:hover { background: #fff; }
+
+    .cta .ghost {
+      background: transparent;
+      color: var(--paper);
+      border: 1px solid rgba(247, 242, 234, 0.35);
+    }
+
+    .cta .ghost:hover {
+      background: rgba(247, 242, 234, 0.08);
+      border-color: rgba(247, 242, 234, 0.55);
+    }
+
+    .panel {
+      background: var(--paper);
+      color: var(--ink);
+      padding: clamp(3rem, 8vw, 5.5rem) clamp(1.5rem, 4vw, 3rem);
+    }
+
+    .panel-inner {
+      max-width: 68rem;
+      margin: 0 auto;
+    }
+
+    .panel h2 {
+      font-family: "Noto Serif SC", serif;
+      font-size: clamp(1.6rem, 3vw, 2.1rem);
+      margin-bottom: 0.65rem;
+    }
+
+    .panel p.lead {
+      color: var(--muted);
+      max-width: 38rem;
+      line-height: 1.7;
+      margin-bottom: 2rem;
+    }
+
+    .steps {
+      display: grid;
+      gap: 1.25rem;
+      counter-reset: step;
+    }
+
+    @media (min-width: 800px) {
+      .steps { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    .step {
+      border-top: 1px solid var(--line);
+      padding-top: 1rem;
+    }
+
+    .step::before {
+      counter-increment: step;
+      content: "0" counter(step);
+      display: block;
+      font-family: "Outfit", sans-serif;
+      font-weight: 600;
+      color: var(--accent);
+      margin-bottom: 0.55rem;
+      letter-spacing: 0.08em;
+    }
+
+    .step h3 {
+      font-size: 1.05rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .step p {
+      color: var(--muted);
+      line-height: 1.65;
+      font-size: 0.95rem;
+    }
+
+    .step code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.86em;
+      background: var(--accent-soft);
+      color: #8a3d16;
+      padding: 0.1em 0.35em;
+      border-radius: 0.3em;
+    }
+
+    footer {
+      border-top: 1px solid var(--line);
+      margin-top: 2.5rem;
+      padding-top: 1.25rem;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    footer a {
+      color: var(--ink);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(26, 22, 18, 0.25);
+    }
+
+    footer a:hover { border-bottom-color: var(--accent); color: var(--accent); }
+
+    @media (prefers-reduced-motion: reduce) {
+      .hero::before, .brand img, .brand-lockup, .headline, .support, .cta {
+        animation: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <section class="hero" aria-label="岁月的个人图床">
+      <div class="brand-lockup">
+        <div class="brand">
+          <img src="./assets/logo.png" alt="" width="48" height="48" />
+          <h1 class="brand-name">岁月的个人图床</h1>
+        </div>
+        <p class="headline">把回忆收进云端，把链接留在指尖。</p>
+        <p class="support">开源个人图床，支持 Cloudflare Workers / Pages 与 Docker 部署。本站为项目主页；完整上传与存储能力请按仓库说明自行部署。</p>
+        <div class="cta">
+          <a class="primary" href="https://github.com/agentai2026/sueiyue-Image-hosting">查看仓库</a>
+          <a class="ghost" href="https://github.com/agentai2026/sueiyue-Image-hosting#cloudflare-workers-%E9%83%A8%E7%BD%B2">部署指南</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel" aria-labelledby="deploy-title">
+      <div class="panel-inner">
+        <h2 id="deploy-title">三步开始</h2>
+        <p class="lead">克隆仓库后，本地预览或部署到 Cloudflare / Docker 即可使用完整图床功能。</p>
+        <div class="steps">
+          <article class="step">
+            <h3>克隆项目</h3>
+            <p>从 GitHub 获取源码：<code>git clone</code> 本仓库到本地。</p>
+          </article>
+          <article class="step">
+            <h3>本地预览</h3>
+            <p>执行 <code>npm install</code> 与 <code>npm start</code>，访问 localhost:8080。</p>
+          </article>
+          <article class="step">
+            <h3>上线部署</h3>
+            <p>配置 Wrangler binding 后运行 <code>npm run deploy:worker</code>，或使用 Docker Compose。</p>
+          </article>
+        </div>
+        <footer>
+          <p>开源项目 · <a href="https://github.com/agentai2026/sueiyue-Image-hosting">agentai2026/sueiyue-Image-hosting</a></p>
+        </footer>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
